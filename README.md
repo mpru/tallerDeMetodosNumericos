@@ -1,5 +1,5 @@
 # tallerDeMetodosNumericos
 
-Algunos materiales para el Taller de Métodos Numéricos (sólo diapos).
+Algunos materiales para el Taller de Métodos Numéricos.
 
-Some materias for the Numeric Methods Workshop (only slides).
+Some materias for the Numeric Methods Workshop.
