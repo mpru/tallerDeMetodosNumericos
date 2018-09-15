@@ -1,0 +1,57 @@
+% Que use espanol
+\usepackage[spanish]{babel}
+
+% Cambiar los colores porque me canse del azul por defecto
+% https://wiki.bath.ac.uk/display/latextricks/Change+the+colour+of+Beamer+slides
+%\definecolor{UBCblue}{rgb}{0.04706, 0.13725, 0.26667} % UBC Blue (primary)
+%\usecolortheme[named=UBCblue]{structure}
+\usecolortheme[named=orange]{structure}
+
+% Esto es para make code-output smaller
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}, fontsize=\tiny}
+
+% Esto es para make console-output smaller:
+\makeatletter
+\def\verbatim{\tiny\@verbatim \frenchspacing\@vobeyspaces \@xverbatim}
+\makeatother
+
+% Esto es para poder escribir en columnas:
+\newcommand{\columnsbegin}{\begin{columns}}
+\newcommand{\columnsend}{\end{columns}}
+
+% Esto es para que el cuadro sombreado donde sale el codigo sea mas chico y para que el espacio entre el codigo y el output sea menor
+\usepackage{etoolbox} 
+\setlength{\parskip}{10pt}
+\setlength{\OuterFrameSep}{1pt}
+\makeatletter
+\preto{\@verbatim}{\topsep=-1pt \partopsep=-1pt }
+\makeatother
+
+%Esto es para poner el tic en formato simbolo
+\usepackage{amssymb}
+
+% Para tablas
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% Para usar el environment gather* que centra ecuaciones sin numerarlas
+\usepackage{amsmath}
+
+
+% Para enumerar teoremas
+\usepackage{amsthm}
+\newtheorem{teorema}{Teorema}
+
+% Achicar espacio antes y despues de ecuaciones NO ANDA
+%\setlength{\abovedisplayskip}{-15pt}
+%\setlength{\belowdisplayskip}{-15pt}
+%\setlength{\abovedisplayshortskip}{-10pt}
+%\setlength{\belowdisplayshortskip}{-10pt}
+
+% Para los algoritmos
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\input{spanishAlgorithmic} % mi archivo de traducción
+
+% Para matriz aumentada
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}

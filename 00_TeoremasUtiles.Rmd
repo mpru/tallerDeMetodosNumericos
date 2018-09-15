@@ -1,0 +1,44 @@
+---
+title: "Teoremas útiles para recordar"
+author: "Taller de Métodos Numéricos"
+date: "Año 2018"
+output: 
+    pdf_document:
+      number_sections: true
+      includes:
+        in_header: modify_header2.txt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, message = FALSE, warning = F, fig.align = "center")
+```
+
+# Teorema del Valor Intermedio o de Bolzano
+
+Sea $f$ una función real continua en un intervalo cerrado $[a,b]$ con $f(a)$ y $f(b)$ de signos contrarios, es decir, $f(a)\cdot f(b) < 0$. Entonces existe al menos un punto $c$ del intervalo abierto $(a, b)$ con $f(c) = 0$.
+
+# Teorema del Valor Medio
+
+Dada cualquier función $f$ continua en el intervalo $[a, b]$ y derivable en el intervalo abierto $(a, b)$, entonces existe al menos algún punto $c$ en el intervalo $(a, b)$ tal que la tangente a la curva en $c$ es paralela a la recta secante que une los puntos $(b, f(b))$ y $(a, f(a))$. Es decir:
+$$
+{\displaystyle {\frac {f(b)-f(a)}{b-a}}=f'(c)} 
+$$
+
+# Teorema de Taylor
+
+Sea $k \geq 1$ un entero y la función $f:\mathbb{R} \rightarrow \mathbb{R}$ diferenciable $k$ veces en el punto $x_0 \in \mathbb{R}$. Entonces existe una función $h_n: \mathbb{R} \rightarrow \mathbb{R}$ tal que:
+
+\begin{gather*}
+f(x) =
+\underbrace{f(x_0) + f'(x_0)(x-x_0) + {\frac{f''(x_0)}{2!}} (x-x_0)^{2} + \cdots + {\frac{f^{(n)}(x_0)}{n!}}(x-x_0)^{n}}_{\text{Polinomio de Taylor de orden $n$}} + 
+\underbrace{h_{n}(x)(x-x_0)^{n+1}}_{\text{resto}}
+\end{gather*}
+
+y $\lim_{x \to x_0} h_n(x)=0$. Esta es la llamada **forma de Peano del resto**.
+
+El polinomio que aparece en el teorema de Taylor se denomina **polinomio de Taylor de orden $n$**.
+
+Existen diversas fórmulas explícitas para el resto. Una de ellas es la **forma de Lagrange**:
+
+$$ R_{n}(x) = {\frac {f^{(n+1)}(\xi)}{(n+1)!}}(x-x_0)^{n+1} $$
+para algún número real $\xi$ entre $x_0$ y $x$, siendo $f$ diferenciable $n+1$ veces.

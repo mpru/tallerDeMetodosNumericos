@@ -1,0 +1,26 @@
+% Esto es para poder escribir en columnas:
+\usepackage{multicol}
+\newcommand{\twocolbegin}{\begin{multicols}{2}}
+\newcommand{\twocolend}{\end{multicols}}
+
+
+% Para enumerar teoremas
+\usepackage{amsthm}
+\newtheorem{teorema}{Teorema}
+
+% Para enumeraciones
+\usepackage{enumerate}
+
+\newcommand{\approxtext}[1]{\ensuremath{\quad \stackrel{\text{#1}}{\approx} \quad}}
+\newcommand{\equaltext}[1]{\ensuremath{\quad \stackrel{\text{#1}}{=} \quad }}
+\newcommand{\leqtext}[1]{\ensuremath{\quad \stackrel{\text{#1}}{\leq} \quad }}
+
+% Para ecuaciones largas que se corten
+\usepackage{breqn}
+
+
+% Para los algoritmos
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\input{spanishAlgorithmic} % mi archivo de traducción
+\usepackage{float}
