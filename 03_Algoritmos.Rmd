@@ -1,8 +1,8 @@
 ---
 title: "Algoritmos"
-subtitle: "Unidad 3: Soluci髇 de Sistemas de Ecuacioens Lineales"
-author: "Taller de M閠odos Num閞icos"
-date: "A駉 2018"
+subtitle: "Unidad 3: Soluci贸n de Sistemas de Ecuaciones Lineales - M茅todos Exactos"
+author: "Taller de M茅todos Num茅ricos"
+date: "A帽o 2019"
 output: 
     pdf_document:
       number_sections: true
@@ -14,61 +14,68 @@ output:
 knitr::opts_chunk$set(echo = F, message = FALSE, warning = F, fig.align = "center")
 ```
 
+<!-- VER EL MATERIAL DEL 2018 
+No asumia que el vector x estuviera iniciado con ceros entonces subseteaba
+para utilizar solo la parte de x que corresponde.
+De la misma forma, en todos los de eliminacion de gauss,
+en el 2018 ponia subindices para indicar las partes de los vectores/matrices
+que intervienen en las cuentas, en el 2019 elimine todo eso y los uso completos
+porque total estan llenos de ceros en las partes que no aportan.
+-->
+
 # Sistemas con matriz triangular superior
 
 \begin{algorithm}[H]
-	\caption{Funci髇 susreg (Sustituci髇 regresiva para matrices triangulares superiores invertibles)}
+	\caption{Funci贸n susreg (Sustituci贸n regresiva para matrices triangulares superiores invertibles)}
 	\begin{algorithmic}
 		\REQUIRE A: matriz triangular superior invertible nxn; b: matriz nx1
-		\ENSURE x: soluci髇 del sistema lineal A x = b
-		\STATE n $\leftarrow$ n鷐ero de filas de A
-		\STATE x $\leftarrow$ vector num閞ico de largo n
+		\ENSURE x: soluci贸n del sistema lineal A x = b
+		\STATE n $\leftarrow$ n煤mero de filas de A
+		\STATE x $\leftarrow$ vector num茅rico iniciado con ceros de largo n
 		\STATE x[n] $\leftarrow$ b[n] / A[n, n]
 		\FOR {k desde n-1 hasta 1 cada -1}
-			\STATE x[k] $\leftarrow$ (b[k] - A[k, k+1 : n] * x[k+1 : n]) / A[k, k]
+			\STATE x[k] $\leftarrow$ (b[k] - A[k, ] * x) / A[k, k]
 		\ENDFOR
 		\RETURN x
 	\end{algorithmic}
 \end{algorithm}
 
-# Eliminaci髇 gaussiana sin pivoteo
+# Eliminaci贸n gaussiana sin pivoteo
 
 \begin{algorithm}[H]
-	\caption{Funci髇 elimGauss (Eliminaci髇 Gaussiana para matrices invertibles)}
+	\caption{Funci贸n elimGauss (Eliminaci贸n Gaussiana para matrices invertibles)}
 	\begin{algorithmic}
 		\REQUIRE A: matriz invertible nxn; b: matriz nx1
-		\ENSURE x: soluci髇 del sistema lineal A x = b
-		\STATE n $\leftarrow$ n鷐ero de filas de A
-		\STATE Aum $\leftarrow$ A $||$ b \textit{    (Concatenaci髇 horizontal, matriz aumentada)}
+		\ENSURE x: soluci贸n del sistema lineal A x = b
+		\STATE n $\leftarrow$ n煤mero de filas de A
+		\STATE Aum $\leftarrow$ A $||$ b \textit{    (Concatenaci贸n horizontal, matriz aumentada)}
 		\STATE 
 		\STATE \textit{Los siguientes pasos triangularizan a la matriz A}
 		\FOR {q desde 1 hasta n-1}
 			\FOR {r desde q+1 hasta n}
 				\STATE mrq $\leftarrow$ Aum[r, q] / Aum[q, q]
-				\STATE Aum[r, q:(n+1)] $\leftarrow$ Aum[r, q:(n+1)] - mrq * Aum[q, q:(n+1)]
+				\STATE Aum[r, ] $\leftarrow$ Aum[r, ] - mrq * Aum[q, ]
 			\ENDFOR
 		\ENDFOR
 		\STATE 
-		\STATE \textit{Una vez triangularizada la matriz, aplicar sustituci髇 regresiva.}
-		\STATE \textit{La 鷏tima columna de Aum es la de t閞minos independientes}
-		\STATE A $\leftarrow$ Aum[, 1:n]
-		\STATE b $\leftarrow$ Aum[, n+1]
-		\STATE x $\leftarrow$ susreg(A, b)
+		\STATE \textit{Una vez triangularizada la matriz, aplicar sustituci贸n regresiva.}
+		\STATE \textit{La 煤ltima columna de Aum es la de t茅rminos independientes}
+		\STATE x $\leftarrow$ susreg(Aum[, 1:n], Aum[, n+1])
 		\RETURN x
 	\end{algorithmic}
 \end{algorithm}
 
 \newpage
 
-# Eliminaci髇 gaussiana con pivoteo trivial
+# Eliminaci贸n gaussiana con pivoteo trivial
 
 \begin{algorithm}[H]
-	\caption{Funci髇 elimGauss\_PivTriv (Eliminaci髇 Gaussiana para matrices invertibles con Pivoteo Trivial)}
+	\caption{Funci贸n elimGauss\_PivTriv (Eliminaci贸n Gaussiana para matrices invertibles con Pivoteo Trivial)}
 	\begin{algorithmic}
 		\REQUIRE A: matriz invertible nxn; b: matriz nx1
-		\ENSURE x: soluci髇 del sistema lineal A x = b
-		\STATE n $\leftarrow$ n鷐ero de filas de A
-		\STATE Aum $\leftarrow$ A $||$ b \textit{    (Concatenaci髇 horizontal, matriz aumentada)}
+		\ENSURE x: soluci贸n del sistema lineal A x = b
+		\STATE n $\leftarrow$ n煤mero de filas de A
+		\STATE Aum $\leftarrow$ A $||$ b \textit{    (Concatenaci贸n horizontal, matriz aumentada)}
 		\STATE 
 
 		\FOR {q desde 1 hasta n-1}
@@ -82,9 +89,9 @@ knitr::opts_chunk$set(echo = F, message = FALSE, warning = F, fig.align = "cente
 			\STATE Aum[r, ] $\leftarrow$ temp
 			\ENDIF
 			\ENDFOR
-			\STATE \textit{Si despu閟 de buscar en todas las filas sigue siendo 0 es porque no hab韆 un pivote distinto de 0 y no se puede resolver}
+			\STATE \textit{Si despu茅s de buscar en todas las filas sigue siendo 0 es porque no hab铆a un pivote distinto de 0 y no se puede resolver}
 			\IF {Aum[q, q] = 0}
-			\PRINT "A es singular. No hay soluci髇 o no es 鷑ica".
+			\PRINT "A es singular. No hay soluci贸n o no es 煤nica".
 			\RETURN \textit{   (Finalizar sin devolver resultado)}
 			\ENDIF
 			\ENDIF
@@ -93,28 +100,26 @@ knitr::opts_chunk$set(echo = F, message = FALSE, warning = F, fig.align = "cente
 		\STATE \textit{Realizar reemplazos para triangularizar a la matriz (igual que antes)}
 		\FOR {r desde q+1 hasta n}
 		\STATE mrq $\leftarrow$ Aum[r, q] / Aum[q, q]
-        \STATE Aum[r, q:(n+1)] $\leftarrow$ Aum[r, q:(n+1)] - mrq * Aum[q, q:(n+1)]
+        \STATE Aum[r, ] $\leftarrow$ Aum[r, ] - mrq * Aum[q, ]
 		\ENDFOR
 		\ENDFOR
 		\STATE 
-		\STATE \textit{Una vez triangularizada la matriz, aplicar sustituci髇 regresiva.}
-		\STATE \textit{La 鷏tima columna de Aum es la de t閞minos independientes}
-		\STATE A $\leftarrow$ Aum[, 1:n]
-		\STATE b $\leftarrow$ Aum[, n+1]
-		\STATE x $\leftarrow$ susreg(A, b)
+		\STATE \textit{Una vez triangularizada la matriz, aplicar sustituci贸n regresiva.}
+		\STATE \textit{La 煤ltima columna de Aum es la de t茅rminos independientes}
+		\STATE x $\leftarrow$ susreg(Aum[, 1:n], Aum[, n+1])
 		\RETURN x
 	\end{algorithmic}
 \end{algorithm}
 
-# Eliminaci髇 gaussiana con pivoteo parcial
+# Eliminaci贸n gaussiana con pivoteo parcial
 
 \begin{algorithm}[H]
-	\caption{Funci髇 elimGauss\_PivParc (Eliminaci髇 Gaussiana para matrices invertibles con Pivoteo Parcial)}
+	\caption{Funci贸n elimGauss\_PivParc (Eliminaci贸n Gaussiana para matrices invertibles con Pivoteo Parcial)}
 	\begin{algorithmic}
 		\REQUIRE A: matriz invertible nxn; b: matriz nx1
-		\ENSURE x: soluci髇 del sistema lineal A x = b
-		\STATE n $\leftarrow$ n鷐ero de filas de A
-		\STATE Aum $\leftarrow$ A $||$ b \textit{    (Concatenaci髇 horizontal, matriz aumentada)}
+		\ENSURE x: soluci贸n del sistema lineal A x = b
+		\STATE n $\leftarrow$ n煤mero de filas de A
+		\STATE Aum $\leftarrow$ A $||$ b \textit{    (Concatenaci贸n horizontal, matriz aumentada)}
 		
 		\STATE
 		\FOR {q desde 1 hasta n-1}
@@ -122,89 +127,86 @@ knitr::opts_chunk$set(echo = F, message = FALSE, warning = F, fig.align = "cente
 			\STATE \textit{Pivoteo parcial: intercambiar por la fila que tenga pivote con mayor valor absoluto}
 			\STATE \textit{Crear vector con los posibles pivotes en valor absoluto:}
 			\STATE candidatos $\leftarrow$ abs(Aum[q:n, q])
-			\STATE \textit{Calcular r, el n鷐ero de fila que usaremos en el intercambio, r $\geq$ q:}
-			\STATE r $\leftarrow$ q - 1 + (posici髇 de max(candidatos))
+			\STATE \textit{Calcular r, el n煤mero de fila que usaremos en el intercambio, r $\geq$ q:}
+			\STATE r $\leftarrow$ q - 1 + (posici贸n de max(candidatos))
 			\STATE \textit{Intercambiar filas:}
 			\STATE temp $\leftarrow$ Aum[q, ]
 			\STATE Aum[q, ] $\leftarrow$ Aum[r, ]
 			\STATE Aum[r, ] $\leftarrow$ temp;
-			\STATE \textit{Si despu閟 del intercambio el pivote es 0, no se puede resolver:}
+			\STATE \textit{Si despu茅s del intercambio el pivote es 0, no se puede resolver:}
 			\IF {Aum[q, q] = 0}
-			\PRINT "A es singular. No hay soluci髇 o no es 鷑ica".
+			\PRINT "A es singular. No hay soluci贸n o no es 煤nica".
 			\RETURN \textit{   (Finalizar sin devolver resultado)}
 			\ENDIF
 		\STATE
 		\STATE \textit{Realizar reemplazos para triangularizar a la matriz (igual que antes)}
 		\FOR {r desde q+1 hasta n}
 		\STATE mrq $\leftarrow$ Aum[r, q] / Aum[q, q]
-        \STATE Aum[r, q:(n+1)] $\leftarrow$ Aum[r, q:(n+1)] - mrq * Aum[q, q:(n+1)]
+        \STATE Aum[r, ] $\leftarrow$ Aum[r, ] - mrq * Aum[q, ]
 		\ENDFOR
 		\ENDFOR
 		\STATE 
-		\STATE \textit{Una vez triangularizada la matriz, aplicar sustituci髇 regresiva.}
-		\STATE \textit{La 鷏tima columna de Aum es la de t閞minos independientes}
-		\STATE A $\leftarrow$ Aum[, 1:n]
-		\STATE b $\leftarrow$ Aum[, n+1]
-		\STATE x $\leftarrow$ susreg(A, b)
+		\STATE \textit{Una vez triangularizada la matriz, aplicar sustituci贸n regresiva.}
+		\STATE \textit{La 煤ltima columna de Aum es la de t茅rminos independientes}
+		\STATE x $\leftarrow$ susreg(Aum[, 1:n], Aum[, n+1])
 		\RETURN x
 	\end{algorithmic}
 \end{algorithm}
 
-# Eliminaci髇 gaussiana con pivoteo parcial escalado
+# Eliminaci贸n gaussiana con pivoteo parcial escalado
 
 \begin{algorithm}[H]
-	\caption{Funci髇 elimGauss\_PivParcEsc (Eliminaci髇 Gaussiana para matrices invertibles con Pivoteo Parcial Escalado)}
+	\caption{Funci贸n elimGauss\_PivParcEsc (Eliminaci贸n Gaussiana para matrices invertibles con Pivoteo Parcial Escalado)}
 	\begin{algorithmic}
 		\REQUIRE A: matriz invertible nxn; b: matriz nx1
-		\ENSURE x: soluci髇 del sistema lineal A x = b
-		\STATE n $\leftarrow$ n鷐ero de filas de A
-		\STATE Aum $\leftarrow$ A $||$ b \textit{    (Concatenaci髇 horizontal, matriz aumentada)}
+		\ENSURE x: soluci贸n del sistema lineal A x = b
+		\STATE n $\leftarrow$ n煤mero de filas de A
+		\STATE Aum $\leftarrow$ A $||$ b \textit{    (Concatenaci贸n horizontal, matriz aumentada)}
 		
 		\STATE
 		\FOR {q desde 1 hasta n-1}
 		\STATE
-		\STATE \textit{Pivoteo parcial escalonado: intercambiar por la fila que tenga pivote con mayor tama駉 relativo a los elementos de su fila}
+		\STATE \textit{Pivoteo parcial escalonado: intercambiar por la fila que tenga pivote con mayor tama帽o relativo a los elementos de su fila}
 		\STATE \textit{Crear vector columna con el maximo de cada fila en valor absoluto:}
-		\STATE sr $\leftarrow$ vector columna con el m醲imo valor absoluto de cada fila de Aum[q:n, q:n]
+		\STATE sr $\leftarrow$ vector columna con el m谩ximo valor absoluto de cada fila de Aum[q:n, q:n]
 		\STATE \textit{Posibles pivotes divididos por el maximo de su fila:}
 		\STATE sr2 $\leftarrow$ abs(Aum[q:n, q]) / sr
-		\STATE \textit{Fila que usaremos en el intercambio porque su pivote tiene mayor tama駉 relativo:}
-		\STATE r $\leftarrow$ loc(sr2 = max(sr2))[1] + q - 1
+		\STATE \textit{Fila que usaremos en el intercambio porque su pivote tiene mayor tama帽o relativo:}
+		\STATE r $\leftarrow$ q - 1 + (posici贸n de max(sr2))
 		\STATE \textit{Intercambiar filas:}
 		\STATE temp $\leftarrow$ Aum[q, ]
 		\STATE Aum[q, ] $\leftarrow$ Aum[r, ]
 		\STATE Aum[r, ] $\leftarrow$ temp;
-		\STATE \textit{Si despu閟 del intercambio el pivote es 0, no se puede resolver:}
+		\STATE \textit{Si despu茅s del intercambio el pivote es 0, no se puede resolver:}
 		\IF {Aum[q, q] = 0}
-		\PRINT "A es singular. No hay soluci髇 o no es 鷑ica".
+		\PRINT "A es singular. No hay soluci贸n o no es 煤nica".
 		\RETURN \textit{   (Finalizar sin devolver resultado)}
 		\ENDIF
 		\STATE
 		\STATE \textit{Realizar reemplazos para triangularizar a la matriz (igual que antes)}
 		\FOR {r desde q+1 hasta n}
 		\STATE mrq $\leftarrow$ Aum[r, q] / Aum[q, q]
-        \STATE Aum[r, q:(n+1)] $\leftarrow$ Aum[r, q:(n+1)] - mrq * Aum[q, q:(n+1)]
+        \STATE Aum[r, ] $\leftarrow$ Aum[r, ] - mrq * Aum[q, ]
 		\ENDFOR
 		\ENDFOR
 		\STATE 
-		\STATE \textit{Una vez triangularizada la matriz, aplicar sustituci髇 regresiva.}
-		\STATE \textit{La 鷏tima columna de Aum es la de t閞minos independientes}
-		\STATE A $\leftarrow$ Aum[, 1:n]
-		\STATE b $\leftarrow$ Aum[, n+1]
-		\STATE x $\leftarrow$ susreg(A, b)
+		\STATE \textit{Una vez triangularizada la matriz, aplicar sustituci贸n regresiva.}
+		\STATE \textit{La 煤ltima columna de Aum es la de t茅rminos independientes}
+		\STATE x $\leftarrow$ susreg(Aum[, 1:n], Aum[, n+1])
 		\RETURN x
 	\end{algorithmic}
 \end{algorithm}
 
-# Eliminaci髇 de Gauss-Jordan con pivoteo trivial
+# Eliminaci贸n de Gauss-Jordan con pivoteo trivial
 
 \begin{algorithm}[H]
-	\caption{Funci髇 gaussJordan (Eliminaci髇 de Gauss-Jordan para matrices invertibles con Pivoteo Trivial)}
+	\caption{Funci贸n gaussJordan (Eliminaci贸n de Gauss-Jordan para matrices invertibles con Pivoteo Trivial)}
 	\begin{algorithmic}
 		\REQUIRE A: matriz invertible nxn; b: matriz nx1
-		\ENSURE x: soluci髇 del sistema lineal A x = b
-		\STATE n $\leftarrow$ n鷐ero de filas de A
-		\STATE Aum $\leftarrow$ A $||$ b \textit{    (Concatenaci髇 horizontal, matriz aumentada)}
+		\ENSURE x: soluci贸n del sistema lineal A x = b. Imprime la inversa de A
+		\STATE n $\leftarrow$ n煤mero de filas de A
+		\STATE I $\leftarrow$ matriz identidad de dimensi贸n nxn
+		\STATE Aum $\leftarrow$ A $||$ b $||$ I \textit{    (Concatenaci贸n horizontal, matriz aumentada)}
 		\STATE 
 
 		\FOR {q desde 1 hasta n}
@@ -218,9 +220,9 @@ knitr::opts_chunk$set(echo = F, message = FALSE, warning = F, fig.align = "cente
 			\STATE Aum[r, ] $\leftarrow$ temp
 			\ENDIF
 			\ENDFOR
-			\STATE \textit{Si despu閟 de buscar en todas las filas sigue siendo 0 es porque no hab韆 un pivote distinto de 0 y no se puede resolver}
+			\STATE \textit{Si despu茅s de buscar en todas las filas sigue siendo 0 es porque no hab铆a un pivote distinto de 0 y no se puede resolver}
 			\IF {Aum[q, q] = 0}
-			\PRINT "A es singular. No hay soluci髇 o no es 鷑ica".
+			\PRINT "A es singular. No hay soluci贸n o no es 煤nica".
 			\RETURN \textit{   (Finalizar sin devolver resultado)}
 			\ENDIF
 			\ENDIF
@@ -229,15 +231,16 @@ knitr::opts_chunk$set(echo = F, message = FALSE, warning = F, fig.align = "cente
 		\STATE \textit{Realizar reemplazos para llegar a la matriz identidad}
 		\FOR {r desde 1 hasta n}
 		    \IF {r = q}
-		        \STATE Aum[q, q:(n+1)] $\leftarrow$ Aum[q, q:(n+1)] / Aum[q, q]
+		        \STATE Aum[q, ] $\leftarrow$ Aum[q, ] / Aum[q, q]
 		    \ELSE
     	    	\STATE mrq $\leftarrow$ Aum[r, q] / Aum[q, q]
-                \STATE Aum[r, q:(n+1)] $\leftarrow$ Aum[r, q:(n+1)] - mrq * Aum[q, q:(n+1)]
+                \STATE Aum[r, ] $\leftarrow$ Aum[r, ] - mrq * Aum[q, ]
             \ENDIF
 		\ENDFOR
 		\ENDFOR
 		\STATE 
-		\STATE \textit{La 鷏tima columna de Aum es la soluci髇}
+		\STATE \textit{La 煤ltima columna de Aum es la soluci贸n}
+		\PRINT "La inversa de A es " Aum[, (n+2):(2*n+1)]
 		\STATE x $\leftarrow$ Aum[, n+1]
 		\RETURN x
 	\end{algorithmic}

@@ -1,0 +1,160 @@
+---
+title: "Teoremas"
+author: "Taller de Métodos Numéricos"
+date: "Año 2019"
+output: 
+    pdf_document:
+      number_sections: true
+      includes:
+        in_header: modify_header2.txt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, message = FALSE, warning = F, fig.align = "center")
+```
+
+# Teorema del Valor Intermedio o de Bolzano
+
+Sea $f$ una función real continua en un intervalo cerrado $[a,b]$ con $f(a)$ y $f(b)$ de signos contrarios, es decir, $f(a)\cdot f(b) < 0$. Entonces existe al menos un punto $c$ del intervalo abierto $(a, b)$ con $f(c) = 0$.
+
+# Teorema del Valor Medio
+
+Dada cualquier función $f$ continua en el intervalo $[a, b]$ y derivable en el intervalo abierto $(a, b)$, entonces existe al menos algún punto $c$ en el intervalo $(a, b)$ tal que la tangente a la curva en $c$ es paralela a la recta secante que une los puntos $(b, f(b))$ y $(a, f(a))$. Es decir:
+$$
+{\displaystyle {\frac {f(b)-f(a)}{b-a}}=f'(c)} 
+$$
+
+# Teorema de Taylor
+
+Sea $k \geq 1$ un entero y la función $f:\mathbb{R} \rightarrow \mathbb{R}$ diferenciable $k$ veces en el punto $x_0 \in \mathbb{R}$. Entonces existe una función $h_n: \mathbb{R} \rightarrow \mathbb{R}$ tal que:
+
+\begin{gather*}
+f(x) =
+\underbrace{f(x_0) + f'(x_0)(x-x_0) + {\frac{f''(x_0)}{2!}} (x-x_0)^{2} + \cdots + {\frac{f^{(n)}(x_0)}{n!}}(x-x_0)^{n}}_{\text{Polinomio de Taylor de orden $n$}} + 
+\underbrace{h_{n}(x)(x-x_0)^{n+1}}_{\text{resto}}
+\end{gather*}
+
+y $\lim_{x \to x_0} h_n(x)=0$. Esta es la llamada **forma de Peano del resto**.
+
+El polinomio que aparece en el teorema de Taylor se denomina **polinomio de Taylor de orden $n$**.
+
+Existen diversas fórmulas explícitas para el resto. Una de ellas es la **forma de Lagrange**:
+
+$$ R_{n}(x) = {\frac {f^{(n+1)}(\xi)}{(n+1)!}}(x-x_0)^{n+1} $$
+para algún número real $\xi$ entre $x_0$ y $x$, siendo $f$ diferenciable $n+1$ veces.
+
+# Teorema del Punto Fijo
+
+Dadas las siguientes condiciones:
+
+\begin{enumerate}[(a)]
+\item $f$ es una función continua en el intervalo $[a, b]$
+\item $f(x) \in [a, b] \quad \forall x \in [a, b]$
+\item $f'$ existe en $(a, b)$ con $|f'(x)| \le m < 1 \quad \forall x \in (a, b)$
+\end{enumerate}
+
+Si $x_0$ es cualquier número en $[a, b]$, entonces la sucesión definida por
+$$ x_n = f(x_{n-1}), \quad n \ge 1,$$
+
+converge al único punto fijo que $f$ posee en $[a, b]$.
+
+## Demostración  {-} 
+
+1. **Existencia de un punto fijo**
+
+    - Si $f(a) = a$ o $f(b) = b$, la existencia del punto fijo es obvia.
+    - Entonces suponemos que $f(a) \neq a$ y $f(b) \neq b \implies f(a) > a$ y $f(b) < b$ por (b).
+        Definimos $h(x) = f(x) - x$, continua en $[a; b]$ tal que:
+        $$h(a) = f(a) - a > 0 \text{ y } h(b) = f(b) - b < 0$$
+        Por el Teorema del Valor Intermedio:
+        $$ \exists \quad p \in (a; b) \text{ tal que } h(p) = 0 \implies f(p) - p = 0 \implies p = f(p) \implies p \text{ es un punto fijo de } f$$
+    - Por lo tanto, $f$ tiene al menos un punto fijo.
+    
+2. **Unicidad del punto fijo**
+
+    Sean $p$ y $q$ dos puntos fijos de $f$, $p \neq q$, $p, q \in [a; b]$:
+    
+    $$ |p-q| \equaltext{puntos fijos} | f(p) - f(q) | \equaltext{T Valor Medio, $\xi$ entre $p$ y $q$} |f'(\xi) (p - q)| \equaltext{Val abs de un prod} $$
+    $$ |f'(\xi)| |p-q| \leqtext{(c)} m |p-q| \leqtext{(c)} |p-q| \implies |p-q| < |p-q| $$
+    
+    Lo cual es una contradicción que proviene de la única suposición: $p \neq q$. Por lo tanto $p = q$ y el punto fijo es único.
+
+3. **Convergencia del proceso iterativo**
+
+    Por (b), dado que $f:[a; b] \rightarrow [a; b]$ , la sucesión $\{x_n\}_{n=0}^{\infty}$ está definida $\forall n \geq 0$ y $x_n \in [a; b] \quad \forall n$.
+    $$ |x_n - p| \equaltext{p es punto fijo} |x_n - f(p)| \quad \stackrel{x_n=f(x_{n-1})}{=} \quad |f(x_{n-1}) - f(p)| \equaltext{T Valor Medio, $\xi$ entre $p$ y $x_{n-1}$}$$
+    $$ |f'(\xi)| |x_{n-1} - p| \leqtext{(c)} m |x_{n-1} - p| \implies |x_n - p| \leq m |x_{n-1} - p|$$
+    Del mismo modo podríamos ver que $|x_{n-1} - p| \leq m |x_{n-2} - p|$.
+    Aplicando dicha desigualdad inductivamente resulta:
+    $$ |x_n - p| \leq m |x_{n-1} - p| \leq m^2 |x_{n-2} - p| \leq \dots \leq m^n |x_0 - p| \implies |x_n - p| \leq m^n |x_0 - p|$$
+    Como $0<m<1$, el segundo miembro decrece a medida que $n$ aumenta, sin importar cuál es $x_0$:
+    $$\lim_{n \to \infty} |x_n - p| \leq \lim_{n \to \infty} m^n |x_0 - p| = 0$$
+    Entonces $|x_n - p| \xrightarrow[n \to \infty]{} 0$, es decir el método converge hacia el punto fijo $p$.
+
+# Teorema de Newton-Raphson
+
+Supongamos que la función $F$ es continua, con derivada segunda continua en el intervalo $[a; b]$, y que existe un número $p \in [a; b]$ tal que $F(p) = 0$. Si $F'(p) \neq 0$, entonces $\exists \quad \delta > 0$ tal que la sucesión $\{x_n\}_{n=0}^{\infty}$ definida por el proceso iterativo:
+
+\begin{equation}
+\label{reglagral}
+x_n = x_{n-1} - \frac{F(x_{n-1})}{F'(x_{n-1})} \quad n=1,2,\dots
+\end{equation}
+
+converge a $p$ cualquiera sea la aproximación inicial $x_0 \in [p-\delta; p+\delta]$.
+
+## Demostración  {-} 
+
+Aplicamos el **Teorema de Taylor** para la función $F$ en el punto $x_0$ empleando un polinomio de grado $n=1$ y el resto en la forma de Lagrange:
+$$F(x) = F(x_0) + F'(x_0)(x-x_0) + \frac{F''(\xi)}{2!}(x-x_0)^2$$
+donde $\xi$ es un número real entre $x$ y $x_0$. 
+
+Si tomamos $x = p$, sabiendo que $F(p) = 0$, nos queda:
+$$0 = F(x_0) + F'(x_0)(p-x_0) + \frac{F''(\xi)}{2!}(p-x_0)^2$$
+Si $x_0$ está suficientemente cerca de $p$, entonces el último término del segundo miembro en la igualdad anterior será pequeño comparado con los restantes y podemos despreciarlo:
+
+\begin{equation}
+\label{relacion}
+0 \approx F(x_0) + F'(x_0)(p-x_0) \implies p-x_0 \approx - \frac{F(x_0)}{F'(x_0)} \implies p \approx x_0 - \frac{F(x_0)}{F'(x_0)}.
+\end{equation}
+
+De esta manera podemos llamar $$x_1 = x_0 - \frac{F(x_0)}{F'(x_0)}$$ y hemos obtenido un nuevo valor $x_1$ más cercano a $p$ que $x_0$. Pensando del mismo modo, podemos escribir $$p \approx x_1 - \frac{F(x_1)}{F'(x_1)}$$ de manera que $$x_2 = x_1 - \frac{F(x_1)}{F'(x_1)}$$ es aún una mejor aproximación a $p$. Continuando de esta manera, queda establecida la regla general (\ref{reglagral}): $$x_n = x_{n-1} - \frac{F(x_{n-1})}{F'(x_{n-1})} \quad n=1,2,\dots$$.
+
+Para garantizar la convergencia, debemos darnos cuenta que la iteración de Newton-Raphson es una iteración de punto fijo, por lo cual vale el **Teorema del Punto Fijo**:
+
+\begin{gather*}
+x_n = 
+\underbrace{x_{n-1} - \frac{F(x_{n-1})}{F'(x_{n-1})}}_{f(x_{n-1})} 
+\end{gather*}
+Por lo tanto, el método será convergente siempre que $|f'(x)| \leq m < 1$:
+$$f(x) = x - \frac{F(x)}{F'(x)}$$
+$$f'(x) = 1 - \frac{[F'(x)]^2 - F(x)F''(x)}{[F'(x)]^2} = 1 - 1 + \frac{F(x)F''(x)}{[F'(x)]^2} = \frac{F(x)F''(x)}{[F'(x)]^2}.$$
+Es decir, el metodo convergerá si:
+$$|f'(x)| = \frac{|F(x)F''(x)|}{[F'(x)]^2} \leq m < 1$$
+Por hipótesis, sabemos que $F(p) = 0$; luego $f'(p) = 0$. Como $f(x)$ es continua y $f'(p) = 0$, podemos encontrar $\delta > 0$ tal que $|f'(x)| < 1$ se cumple en el intervalo $[p - \delta, p + \delta]$. Por consiguiente, que $x_0 \in [p - \delta, p + \delta]$ es una condición suficiente para que $x_0$ sea el punto de partida de una sucesión $\{x_n\}_{n=0}^{\infty}$ que converge a la única raíz de $F(x) = 0$ en dicho intervalo, siempre que $\delta$ sea elegido tal que:
+$$\frac{|F(x)F''(x)|}{[F'(x)]^2} < 1  \quad \forall x \in [p - \delta, p + \delta]$$
+
+# Deducción de la fórmula de recurrencia para el Método de Newton-Raphson de 2º Orden
+
+Una modificación al método de N-R se deriva a partir de la utilización de un término más en el desarrollo por serie de Taylor de la función $F(x)$. Aplicamos el **Teorema de Taylor** para la función $F$ en el punto $x_0$ empleando un polinomio de grado $n=2$ y el resto en la forma de Lagrange:
+
+$$F(x) = F(x_0) + F'(x_0)(x-x_0) + \frac{F''(x_0)}{2!}(x-x_0)^2 + \frac{F''(\xi)}{3!}(x-x_0)^3$$
+donde $\xi$ es un número real entre $x$ y $x_0$. 
+
+Si tomamos $x = p$, sabiendo que $F(p) = 0$, nos queda:
+$$0 = F(x_0) + F'(x_0)(p-x_0) + \frac{F''(x_0)}{2!}(p-x_0)^2 + \frac{F''(\xi)}{3!}(p-x_0)^3$$
+Si $x_0$ está suficientemente cerca de $p$, entonces el último término del segundo miembro en la igualdad anterior será pequeño comparado con los restantes y podemos despreciarlo:
+
+\begin{equation*} 
+\begin{split}
+0 & \approx F(x_0) + F'(x_0)(p-x_0) + \frac{F''(x_0)}{2!}(p-x_0)^2 \\
+\implies 0 & \approx F(x_0) + (p-x_0) \left[ F'(x_0) + \frac{F''(x_0)}{2!}(p-x_0) \right]
+\end{split}
+\end{equation*}
+
+Si dentro de los corchetes se reemplaza $(p - x_0)$ por $- \frac{F(x_0)}{F'(x_0)}$ según la relación vista en (\ref{relacion}) y se despeja $p$, se obtiene una expresión para la primera aproximación $x_1$, dando lugar a la fórmula iterativa:
+
+$$
+x_n = x_{n-1} - \frac{F(x_{n-1})F'(x_{n-1})}{[F'(x_{n-1})]^2 - 0,5 F(x_{n-1}) F''(x_{n-1})} \quad n = 1, 2, \dots
+$$
+
+

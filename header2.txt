@@ -1,0 +1,55 @@
+% Que use espanol
+\usepackage[spanish]{babel}
+
+% Cambiar los colores porque me canse del azul por defecto
+\definecolor{violeta}{rgb}{0.120,0.40,0.140}
+\usecolortheme[named=violet]{structure}
+
+% Esto es para make code-output smaller
+%\usepackage{fancyvrb}
+%\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}, fontsize=\tiny}
+
+% Esto es para make console-output smaller:
+%\makeatletter
+%\def\verbatim{\tiny\@verbatim \frenchspacing\@vobeyspaces \@xverbatim}
+%\makeatother
+
+% Esto es para poder escribir en columnas:
+\newcommand{\columnsbegin}{\begin{columns}}
+\newcommand{\columnsend}{\end{columns}}
+
+% Esto es para que el cuadro sombreado donde sale el codigo sea mas chico y para que el espacio entre el codigo y el output sea menor
+\usepackage{etoolbox,framed} 
+\setlength{\parskip}{10pt}
+\setlength{\OuterFrameSep}{1pt}
+\makeatletter
+\preto{\@verbatim}{\topsep=-1pt \partopsep=-1pt }
+\makeatother
+
+%Esto es para poner el tic en formato simbolo
+\usepackage{amssymb}
+
+% Para tablas
+\usepackage{booktabs}
+\usepackage{multirow}
+
+%Pie de pagina
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+
+  \begin{beamercolorbox}[wd=.35\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+
+  \begin{beamercolorbox}[wd=.35\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertdate\hspace*{5ex}
+    \insertframenumber{} / \inserttotalframenumber
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
